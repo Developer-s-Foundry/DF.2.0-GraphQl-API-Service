@@ -1,0 +1,246 @@
+{
+	"openapi": "3.0.0",
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"Metric": {
+				"properties": {
+					"id": {
+						"type": "string"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"update_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"metric_name": {
+						"type": "string"
+					},
+					"time_stamp": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"metric": {},
+					"value": {
+						"type": "number",
+						"format": "double"
+					},
+					"project_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"project": {
+						"$ref": "#/components/schemas/Project"
+					}
+				},
+				"required": [
+					"id",
+					"created_at",
+					"update_at",
+					"metric_name",
+					"time_stamp",
+					"metric",
+					"value",
+					"project_id",
+					"project"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"Project": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"name": {
+						"type": "string"
+					},
+					"description": {
+						"type": "string"
+					},
+					"base_url": {
+						"type": "string"
+					},
+					"prometheus_metric_url": {
+						"type": "string"
+					},
+					"team_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"owner_id": {
+						"type": "number",
+						"format": "double"
+					},
+					"updated_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"created_at": {
+						"type": "string",
+						"format": "date-time"
+					},
+					"metrics": {
+						"items": {
+							"$ref": "#/components/schemas/Metric"
+						},
+						"type": "array"
+					}
+				},
+				"required": [
+					"id",
+					"name",
+					"description",
+					"base_url",
+					"prometheus_metric_url",
+					"team_id",
+					"owner_id",
+					"updated_at",
+					"created_at",
+					"metrics"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"timeDifference": {
+				"enum": [
+					"1-hour-ago",
+					"2-hours-ago",
+					"1-day-ago",
+					"1-month-ago",
+					"1-year-ago"
+				],
+				"type": "string"
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "df-aimas-metrics-service",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"paths": {
+		"/": {
+			"get": {
+				"operationId": "GetBase",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"properties": {
+										"message": {
+											"type": "string"
+										}
+									},
+									"required": [
+										"message"
+									],
+									"type": "object"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/metrics/search-metrics/{project_id}": {
+			"get": {
+				"operationId": "GetMetrics",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/Metric"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "project_id",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "time_difference",
+						"required": false,
+						"schema": {
+							"$ref": "#/components/schemas/timeDifference"
+						}
+					},
+					{
+						"in": "query",
+						"name": "page",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					},
+					{
+						"in": "query",
+						"name": "metric_name",
+						"required": false,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "limit",
+						"required": false,
+						"schema": {
+							"format": "double",
+							"type": "number"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "https://localhost:2012/"
+		},
+		{
+			"url": "https://df-2-0-aima-metrics-service.onrender.com/"
+		}
+	],
+	"tags": [
+		{
+			"name": "Metrics",
+			"description": "This is a metrics management service that collects metric from prometheus based on the services its monitoring, filters, query prometheus and distributed a formatted data to a message broker",
+			"externalDocs": {
+				"description": "Find out more about Metric Management",
+				"url": "https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Metrics-Service"
+			}
+		}
+	]
+}
