@@ -23,22 +23,26 @@ export const typeDefs = gql`
             created_at: Date
             }
     }
-
-   enum TimeDifference {
-        ONE_HOUR_AGO
-        TWO_HOURS_AGO
-        ONE_DAY_AGO
-        A_MONTH_AGO
-        A_YEAR_AGO
+        
+    type QueryData {
+        pageNumber: Int!
+        pageLimit: Int!
+        metric_name: String!
+        project_id: String!
     }
 
+    enum timeDifference {
+        oneHourAgo
+        twoHourAgo
+        oneDayAgo
+        aMonthAgo
+        aYearAgo
+    }
 
     type Query {
+
         getMetrics(
-            pageNumber?: Int,
-            pageLimit?: Int,
-            metric_name: String,
-            project_id: String,     
-            time_difference?: TimeDifference,
+            data: QueryData!
+            time_difference: timeDifference,
         ): [Metrics!]!
     }`;
