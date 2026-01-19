@@ -11,7 +11,7 @@
     "typeorm:migration": "npm run typeorm:ds -- migration:generate ",
     "migration:run:dev": "npm run typeorm:ds -- migration:run",
     "migration:run:prod": "node ./node_modules/typeorm/cli.js migration:run -d ./dist/common/config/database.js",
-    "dev": "rimraf ./src/swagger &&  tsoa spec-and-routes && \"nodemon\" ",
+    "dev": "\"nodemon\" ",
     "build": "tsoa spec-and-routes && tsc",
     "rabbit-server": "ts-node ./src/broker/consumer_entry.ts",
     "start:worker:dev": "ts-node ./src/worker/worker_entry.ts",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.7",
-    "@types/cors": "^2.8.19",
+    "@types/graphql": "^14.2.3",
     "@types/swagger-ui-express": "^4.1.8"
   }
 }

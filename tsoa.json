@@ -1,0 +1,28 @@
+{
+  "entryFile": "src/server.ts",
+  "noImplicitAdditionalProperties": "throw-on-extras",
+  "controllerPathGlobs": [
+    "./src/**/*controller.ts"
+  ],
+  "spec": {
+    "outputDirectory": "./src/swagger",
+    "specVersion": 3,
+    "servers": [
+      "localhost:2012",
+      "df-2-0-aima-metrics-service.onrender.com"
+    ],
+    "tags": [
+      {
+        "name": "Metrics",
+        "description": "This is a metrics management service that collects metric from prometheus based on the services its monitoring, filters, query prometheus and distributed a formatted data to a message broker",
+        "externalDocs": {
+          "description": "Find out more about Metric Management",
+          "url": "https://github.com/Developer-s-Foundry/DF-2.0-AIMA-Metrics-Service"
+        }
+      }
+    ]
+  },
+  "routes": {
+    "routesDir": "./src/swagger"
+  }
+}
