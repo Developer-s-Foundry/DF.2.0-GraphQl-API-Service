@@ -1,4 +1,3 @@
-// server.ts - GraphQL Server with Logging
 import { APP_CONFIGS } from "./common/config/index";
 import { dbInitialization } from "./common/config/database";
 import { ProjectJob } from "./crons/metric_cron_job";
@@ -7,8 +6,14 @@ import { consumeProjectMessages } from "./broker/consumers/project_consumer";
 import { clearQueueOnShutdown } from "./queue/queue";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
+import { expressMiddleware } from "@as-integrations/express4";
 import { resolvers } from "./resolver";
 import { typeDefs } from "./schema";
+import express from "express";
+import http from "http";
+import { json } from "body-parser";
+import { logMiddleware } from "./Middleware/metric_middleware";
+import cors from "cors";
 
 (async () => {
   try {
@@ -18,6 +23,9 @@ import { typeDefs } from "./schema";
     console.log("Initializing database...");
     await dbInitialization();
     console.log("Database initialized");
+
+    const app = express();
+    const httpServer = http.createServer(app);
 
     // Initialize Apollo Server with logging plugin
     const apolloServer = new ApolloServer({
@@ -35,6 +43,16 @@ import { typeDefs } from "./schema";
         };
       },
     });
+
+    await apolloServer.start();
+
+    app.use(
+      "/graphql",
+      cors(),
+      json(),
+      logMiddleware, 
+      expressMiddleware(apolloServer),
+    );
 
     // Start standalone Apollo Server
     const { url } = await startStandaloneServer(apolloServer, {

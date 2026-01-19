@@ -1,7 +1,7 @@
 {
   // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
-   // File Layout
+    // File Layout
     "rootDir": "./src",
     "outDir": "./dist",
 
@@ -33,8 +33,8 @@
     // "noPropertyAccessFromIndexSignature": true,
 
     "experimentalDecorators": true,
-"emitDecoratorMetadata": true,
-// optional but helpful for decorator libs
+    "emitDecoratorMetadata": true,
+    // optional but helpful for decorator libs
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
@@ -43,5 +43,6 @@
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
     "skipLibCheck": true,
+    "moduleResolution": "NodeNext"
   }
 }
