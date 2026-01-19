@@ -22,13 +22,13 @@ export class Metric extends BaseModel{
     metric!: any
 
     @Column('float')
-    value: number
+    value!: number
 
     // @Column({type: 'jsonb'})
     // extras!: any
 
     @Column()
-    project_id: number
+    project_id!: number
 
     @JoinColumn({ name: "project_id", referencedColumnName: "id" })
     @ManyToOne(() => Project, (project) => project.metrics)

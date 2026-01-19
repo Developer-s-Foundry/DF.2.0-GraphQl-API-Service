@@ -15,7 +15,7 @@ export class Project {
     description!: string
 
     @Column()
-    base_url: string
+    base_url!: string
 
     @Column()
     prometheus_metric_url!: string
@@ -24,7 +24,7 @@ export class Project {
     team_id!: number
 
     @Column()
-    owner_id: number
+    owner_id!: number
 
     @UpdateDateColumn({type: 'timestamptz'})
     updated_at!: Date
