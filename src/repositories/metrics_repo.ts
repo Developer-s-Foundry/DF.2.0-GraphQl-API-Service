@@ -1,4 +1,4 @@
-import { MetricData, QueryData, timeDifference} from '../common/types/interface';
+import { MetricData, QueryData, TimeDifference} from '../common/types/interface';
 import { AppDataSource } from "../common/config/database";
 import { Metric } from "../models/entities/metric";
 import { Repository } from 'typeorm';
@@ -37,7 +37,7 @@ export class MetricRepo {
         return await this.MetricRepository.save(new_metrics);
     }
 
-    async getMetrics(data: QueryData, timeData: timeDifference): Promise<Metric[]> {
+    async getMetrics(data: QueryData, timeData: TimeDifference): Promise<Metric[]> {
         const {
                 metric_name, pageLimit, pageNumber, project_id} = data;
         
@@ -45,27 +45,27 @@ export class MetricRepo {
         const endDate = new Date();
 
         switch (timeData) {
-            case timeDifference.oneHourAgo:
+            case TimeDifference.ONE_HOUR_AGO:
                 startDate = new Date(endDate.getTime() - 60 * 60 * 1000 * 1);
                 
                 break;
 
-             case timeDifference.twoHourAgo:
+             case TimeDifference.TWO_HOURS_AGO:
                 startDate = new Date(endDate.getTime() - 60 * 60 * 1000 * 2);
             
                 break;
 
-            case timeDifference.oneDayAgo:
+            case TimeDifference.ONE_DAY_AGO:
                 startDate = new Date(endDate.getDay());
             
                 break;
 
-            case timeDifference.aMonthAgo:
+            case TimeDifference.A_MONTH_AGO:
                 startDate = new Date(endDate.getFullYear(), 
                     endDate.getMonth() > 0 ?  endDate.getMonth() - 1 : 0,  endDate.getDay());
                 break;
 
-            case timeDifference.aYearAgo:
+            case TimeDifference.A_YEAR_AGO:
                 startDate = new Date(endDate.getFullYear() - 1,  0,  1);
                 
                 break;

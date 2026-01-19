@@ -25,13 +25,14 @@ export interface QueryData {
     project_id?: string
 }
 
-export enum timeDifference {
-    oneHourAgo = '1-hour-ago',
-    twoHourAgo = '2-hours-ago',
-    oneDayAgo = "1-day-ago",
-    aMonthAgo = '1-month-ago',
-    aYearAgo = '1-year-ago'
+export enum TimeDifference {
+  ONE_HOUR_AGO,
+  TWO_HOURS_AGO,
+  ONE_DAY_AGO,
+  A_MONTH_AGO,
+  A_YEAR_AGO
 }
+
 
 export interface metricPatialData {
     metricName: string,

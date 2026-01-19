@@ -20,11 +20,13 @@
     "@apollo/server": "^5.2.0",
     "express": "^5.2.1",
     "graphql": "^16.12.0",
+    "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
     "tsoa": "^6.6.0",
     "typeorm": "^0.3.28"
   },
   "devDependencies": {
+    "@types/swagger-ui-express": "^4.1.8",
     "nodemon": "^3.1.10",
     "typescript": "^5.9.3"
   }

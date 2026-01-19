@@ -23,26 +23,22 @@ export const typeDefs = `#graphql
             created_at: Date
             }
     }
-        
-    type QueryData {
-        pageNumber: Int!
-        pageLimit: Int!
-        metric_name: String!
-        project_id: String!
+
+   enum TimeDifference {
+        ONE_HOUR_AGO
+        TWO_HOURS_AGO
+        ONE_DAY_AGO
+        A_MONTH_AGO
+        A_YEAR_AGO
     }
 
-    enum timeDifference {
-        oneHourAgo
-        twoHourAgo
-        oneDayAgo
-        aMonthAgo
-        aYearAgo
-    }
 
     type Query {
-
         getMetrics(
-            data: QueryData!
-            time_difference: timeDifference,
+            pageNumber?: Int,
+            pageLimit?: Int,
+            metric_name: String,
+            project_id: String,     
+            time_difference?: TimeDifference,
         ): [Metrics!]!
     }`
