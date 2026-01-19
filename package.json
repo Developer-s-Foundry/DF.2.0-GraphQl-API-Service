@@ -33,21 +33,19 @@
     "concurrently": "^9.2.1",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.2.1",
+    "express": "^4.22.1",
     "mysql": "^2.18.1",
     "node-cron": "^4.2.1",
     "nodemon": "^3.1.10",
     "pg": "^8.16.3",
     "rimraf": "^5.0.10",
     "swagger-ui-express": "^5.0.1",
-    "ts-node": "^10.9.2",
     "tsoa": "^6.6.0",
-    "typeorm": "^0.3.27",
-    "typescript": "^5.9.3"
+    "typeorm": "^0.3.27"
   },
   "devDependencies": {
     "@types/amqplib": "^0.10.7",
-    "@types/graphql": "^14.2.3",
+  "@types/cors": "^2.8.19",
     "@types/swagger-ui-express": "^4.1.8"
   }
 }

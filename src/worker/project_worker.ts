@@ -12,7 +12,7 @@ export async function projectWorker() {
     const metricRepo = new MetricRepo();
 
     const worker = new Worker(APP_CONFIGS.QUEUE_NAME, async (job) => {
-        const prometheus_metric_url = job.data.prometheus_metric_url;
+        const prometheus_metric_url = job.data?.prometheus_metric_url;
         const prometheusServerUrl = `https://${prometheus_metric_url}/api/v1/query?query=`
         console.log(prometheus_metric_url);
         // get the list of metrics names
