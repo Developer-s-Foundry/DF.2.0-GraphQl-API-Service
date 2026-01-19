@@ -1,33 +1,48 @@
 {
-  "name": "df-2.0-graphql-api-service",
+  "name": "df-aimas-metrics-service",
   "version": "1.0.0",
-  "description": "GraphQl Backend Service ",
-  "main": "server.ts",
+  "description": "",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "typeorm": " ts-node node_modules/typeorm/cli",
+    "typeorm:ds": "npm run typeorm -- -d ./src/common/config/database.ts",
+    "typeorm:migration": "npm run typeorm:ds -- migration:generate ",
+    "migration:run:dev": "npm run typeorm:ds -- migration:run",
+    "migration:run:prod": "node ./node_modules/typeorm/cli.js migration:run -d ./dist/common/config/database.js",
+    "dev": "rimraf ./src/swagger &&  tsoa spec-and-routes && \"nodemon\" ",
+    "build": "tsoa spec-and-routes && tsc",
+    "rabbit-server": "ts-node ./src/broker/consumer_entry.ts",
+    "start:worker:dev": "ts-node ./src/worker/worker_entry.ts",
+    "prometheus:worker:dev": "ts-node ./src/worker/metrics_worker.ts"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Developer-s-Foundry/DF.2.0-GraphQl-API-Service.git"
-  },
-  "author": "Judith Ukachukwu",
+  "keywords": [],
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Developer-s-Foundry/DF.2.0-GraphQl-API-Service/issues"
-  },
-  "homepage": "https://github.com/Developer-s-Foundry/DF.2.0-GraphQl-API-Service#readme",
+  "type": "commonjs",
   "dependencies": {
-    "@apollo/server": "^5.2.0",
-    "express": "^5.2.1",
-    "graphql": "^16.12.0",
+    "@types/express": "^5.0.3",
+    "amqplib": "^0.10.9",
+    "bullmq": "^5.61.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "concurrently": "^9.2.1",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "mysql": "^2.18.1",
+    "node-cron": "^4.2.1",
+    "nodemon": "^3.1.10",
+    "pg": "^8.16.3",
+    "rimraf": "^5.0.10",
     "swagger-ui-express": "^5.0.1",
     "ts-node": "^10.9.2",
     "tsoa": "^6.6.0",
-    "typeorm": "^0.3.28"
+    "typeorm": "^0.3.27",
+    "typescript": "^5.9.3"
   },
   "devDependencies": {
-    "@types/swagger-ui-express": "^4.1.8",
-    "nodemon": "^3.1.10",
-    "typescript": "^5.9.3"
+    "@types/amqplib": "^0.10.7",
+    "@types/swagger-ui-express": "^4.1.8"
   }
 }
