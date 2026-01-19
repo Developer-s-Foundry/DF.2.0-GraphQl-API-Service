@@ -1,34 +1,35 @@
-import cron from 'node-cron';
-import { ProjectRepository } from '../repositories/project_repo';
-import { addJobsToQueue, projectQueue} from '../queue/queue';
-import { APP_CONFIGS } from '../common/config';
-
+import cron from "node-cron";
+import { ProjectRepository } from "../repositories/project_repo";
+import { addJobsToQueue, projectQueue } from "../queue/queue";
+import { APP_CONFIGS } from "../common/config";
 
 const projectRepo = new ProjectRepository();
 
+export async function ProjectJob() {
+  let isRunning = false;
 
-export async function ProjectJob () {
+  cron.schedule("*/5 * * * *", async () => {
+    if (isRunning) return;
 
-    let isRunning = false
-    
-    cron.schedule('*/5 * * * *', async () => {
-        if (isRunning) return;
+    isRunning = true;
 
-        isRunning = true
+    try {
+      const projects = await projectRepo.findManyByConditions({});
 
-        try {
-            const projects = await projectRepo.findManyByConditions({})
+      if (!projects) {
+        console.warn("No project found, skipping cron job");
+        return;
+      }
 
+      for (let i = 0; i < projects.length; i++) {
+        const project = projects[i];
+        addJobsToQueue(projectQueue, APP_CONFIGS.JOB_NAME, projects);
+        console.log("got added to Queue");
+      }
+    } finally {
+      isRunning = false;
+    }
 
-            for (let i = 0; i < projects.length; i++) {
-                const project = projects[i];
-                addJobsToQueue(projectQueue, APP_CONFIGS.JOB_NAME, project);
-                console.log('got added to Queue')
-            }
-        } finally {
-            isRunning = false
-        }
-
-        console.log('running a task every minute');
-});
+    console.log("running a task every minute");
+  });
 }

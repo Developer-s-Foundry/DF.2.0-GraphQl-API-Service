@@ -20,39 +20,41 @@ import cors from "cors";
     console.log("Starting GraphQL server...");
 
     // Initialize database
-    console.log("Initializing database...");
-    await dbInitialization();
-    console.log("Database initialized");
 
-    const app = express();
-    const httpServer = http.createServer(app);
+    // const app = express();
+    // const httpServer = http.createServer(app);
 
     // Initialize Apollo Server with logging plugin
     const apolloServer = new ApolloServer({
       typeDefs,
       resolvers,
-      introspection: true,
-      formatError: (formattedError, error) => {
-        console.error("GraphQL Error:", formattedError);
-        return {
-          ...formattedError,
-          extensions: {
-            ...formattedError.extensions,
-            timestamp: new Date().toISOString(),
-          },
-        };
-      },
+      // introspection: true,
+      // formatError: (formattedError, error) => {
+      //   console.error("GraphQL Error:", formattedError);
+      //   return {
+      //     ...formattedError,
+      //     extensions: {
+      //       ...formattedError.extensions,
+      //       timestamp: new Date().toISOString(),
+      //     },
+      //   };
+      // },
     });
 
-    await apolloServer.start();
+    // await apolloServer.start();
 
-    app.use(
-      "/graphql",
-      cors(),
-      json(),
-      logMiddleware, 
-      expressMiddleware(apolloServer),
-    );
+    const app: express.Application = express();
+    console.log("Initializing database...");
+    await dbInitialization();
+    console.log("Database initialized");
+
+    // app.use(
+    //   "/graphql",
+    //   cors(),
+    //   json(),
+    //   logMiddleware,
+    //   expressMiddleware(apolloServer),
+    // );
 
     // Start standalone Apollo Server
     const { url } = await startStandaloneServer(apolloServer, {
