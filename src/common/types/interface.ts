@@ -4,7 +4,7 @@ import {IsNumber, IsString } from "class-validator"
 export class MetricData {
 
     @IsNumber()
-    project_id: number
+    project_id!: number
     
     @IsString()
     type!: string

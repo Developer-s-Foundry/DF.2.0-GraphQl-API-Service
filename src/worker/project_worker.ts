@@ -17,7 +17,9 @@ export async function projectWorker() {
         console.log(prometheus_metric_url);
         // get the list of metrics names
         const metricsMetadata = await getFullMetricsData(prometheus_metric_url);
+        console.log('i am about to pass')
         console.log(metricsMetadata);
+        console.log('passed the metrics data')
         const allRecommendation : any = {}
         // loop through data
         // save each recommendation in an array
@@ -36,10 +38,14 @@ export async function projectWorker() {
             const allSeries = `${prometheusServerUrl}${metricName}`;
             
             metricData.metric_name = metricName;
-             console.log(`key: ${metricData.metric_name}`)
-            const type = Object.values(metricValue[0])[0];
-            console.log(type);
-            metricData.type = type;
+            console.log(`key: ${metricData.metric_name}`);
+
+            if (metricValue[0]) {
+               const type = (Object.values(metricValue[0]))[0];
+                console.log(type);
+               type && (metricData.type = type);
+            }
+            
             const unformattedData =  await getTimeStampSeries(allSeries);
             console.log(unformattedData);
             unformattedData.forEach( async(metrics: any) => {
@@ -60,7 +66,7 @@ export async function projectWorker() {
             });
            
              // based on type, give a recommendation
-             switch (type) {
+             switch (metricData.type) {
                 case 'counter':
                     const total = await fetchRecommendation(`${prometheusServerUrl}sum(increase(${metricData.metric_name}[5m]))`)
                     const counterDataFormat = {
