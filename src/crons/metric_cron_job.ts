@@ -15,6 +15,7 @@ export async function ProjectJob() {
 
     try {
       const projects = await projectRepo.findManyByConditions({});
+      console.log('this is the project' + projects);
 
       if (!projects) {
         console.warn("No project found, skipping cron job");
@@ -23,8 +24,11 @@ export async function ProjectJob() {
 
       for (let i = 0; i < projects.length; i++) {
         const project = projects[i];
-        addJobsToQueue(projectQueue, APP_CONFIGS.JOB_NAME, projects);
-        console.log("got added to Queue");
+
+        if (project) {
+          addJobsToQueue(projectQueue, APP_CONFIGS.JOB_NAME, project);
+          console.log("got added to Queue");
+        }
       }
     } finally {
       isRunning = false;

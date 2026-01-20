@@ -6,14 +6,11 @@ import { consumeProjectMessages } from "./broker/consumers/project_consumer";
 import { clearQueueOnShutdown } from "./queue/queue";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
-import { expressMiddleware } from "@as-integrations/express4";
 import { resolvers } from "./resolver";
 import { typeDefs } from "./schema";
 import express from "express";
-import http from "http";
-import { json } from "body-parser";
-import { logMiddleware } from "./Middleware/metric_middleware";
-import cors from "cors";
+// import { json } from "body-parser";
+
 
 (async () => {
   try {
@@ -28,35 +25,14 @@ import cors from "cors";
     const apolloServer = new ApolloServer({
       typeDefs,
       resolvers,
-      // introspection: true,
-      // formatError: (formattedError, error) => {
-      //   console.error("GraphQL Error:", formattedError);
-      //   return {
-      //     ...formattedError,
-      //     extensions: {
-      //       ...formattedError.extensions,
-      //       timestamp: new Date().toISOString(),
-      //     },
-      //   };
-      // },
     });
 
-    // await apolloServer.start();
-
     const app: express.Application = express();
+
     console.log("Initializing database...");
     await dbInitialization();
     console.log("Database initialized");
 
-    // app.use(
-    //   "/graphql",
-    //   cors(),
-    //   json(),
-    //   logMiddleware,
-    //   expressMiddleware(apolloServer),
-    // );
-
-    // Start standalone Apollo Server
     const { url } = await startStandaloneServer(apolloServer, {
       listen: { port: parseInt(APP_CONFIGS.SERVER_PORT) },
     });
